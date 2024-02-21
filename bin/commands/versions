@@ -1,2 +1,19 @@
 #!/bin/sh
-ls "/Applications/MAMP/bin/php/"
+
+source "$(dirname "$0")/../utilities/helpers.sh"
+
+configured=$(get_configured_php_version)
+
+if [ -z $configured ]; then
+  echo "* system"
+fi
+
+for version in $(get_php_versions); do
+  prefix="  "
+
+  if [ "$version" == "$configured" ]; then
+    prefix="* "
+  fi
+
+  echo "$prefix$version"
+done

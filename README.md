@@ -4,7 +4,7 @@
   * [Key features](#key-features)
   * [How it works](#how-it-works)
 * [Installation](#installation)
-  * [Basic github checkout](#basic-github-checkout) 
+  * [Basic github checkout](#basic-github-checkout)
   * [Upgrading](#upgrading)
 * [Usage](#usage)
   * [mampenv versions](#mampenv-versions)
@@ -23,7 +23,7 @@ MAMP Pro is running for your site.
 
 ### Key features:
 
- * Inspired by [phpenv](https://github.com/phpenv/phpenv) and [rbenv](https://github.com/sstephenson/rbenv) 
+ * Inspired by [phpenv](https://github.com/phpenv/phpenv) and [rbenv](https://github.com/sstephenson/rbenv)
  * Run MAMP-supported PHP versions directly from the command line
  * Run `composer` using the correct PHP version
  * Use project-specific versions of MAMP's PHP installations
@@ -90,7 +90,7 @@ Create a new `.phpversion` file in the current directory.
 
 ### Anchoring your project
 
-First, see what versions are available on your system. 
+First, see what versions are available on your system.
 
     mampenv versions
 
