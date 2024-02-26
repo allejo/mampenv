@@ -8,12 +8,13 @@ function _up_search() {
   done
 }
 
-function _split_string() {
+_split_string() {
   IFS="$2" read -r -a parts <<< "$1"
+
   echo "${parts[@]}"
 }
 
-function _find_closest_version() {
+_find_closest_version() {
   local input_version=$1
   shift
   local versions=("$@")
@@ -43,7 +44,7 @@ function _find_closest_version() {
   echo "$highest_version"
 }
 
-function get_php_versions() {
+get_php_versions() {
   versions=()
 
   for file in /Applications/MAMP/bin/php/php*; do
