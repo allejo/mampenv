@@ -1,6 +1,14 @@
 #!/bin/bash
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $DIR/phpversion.sh
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+. "$DIR/utilities/helpers.sh"
+. "$DIR/phpversion.sh"
 
-$php "$DIR/composer.phar" "$@"
+composerVersions=($(_split_string "$(which -a composer | tr '\n' ' ')" " "))
+
+if [ ${#composerVersions[@]} -lt 2 ]; then
+    echo "No Composer not found on your system"
+    exit 1
+fi
+
+$php "${composerVersions[1]}" "$@"

@@ -1,6 +1,7 @@
 #!/bin/bash
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $DIR/phpversion.sh
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+. "$DIR/phpversion.sh"
 
 bin="/Applications/MAMP/bin/php/php$version/bin/pecl"
 $bin "$@"
