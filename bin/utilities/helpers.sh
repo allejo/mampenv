@@ -1,4 +1,9 @@
-function _up_search() {
+FILE_NAME=".php-version"
+GH_REPO="http://github.com/allejo/mampenv"
+
+_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+_up_search() {
   slashes=${PWD//[^\/]/}
   directory="$PWD"
 
@@ -57,12 +62,17 @@ get_php_versions() {
   echo ${versions[@]}
 }
 
-function get_configured_php_version() {
-  value=$(_up_search ".phpversion")
+get_configured_php_version() {
+  value=$(_up_search $FILE_NAME)
 
   if [[ -z "$value" ]]; then
-    echo ""
-    exit 1
+    globalVersion="$_DIR/../../version"
+
+    if [[ -f "$globalVersion" ]]; then
+      echo $(cat "$globalVersion")
+    fi
+
+    return
   fi
 
   echo $(cat "$value")
