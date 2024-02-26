@@ -1,0 +1,22 @@
+#!/bin/sh
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+globalVersionFile="$DIR/../../version"
+
+if [ "$#" -eq 0 ]; then
+  if [ -f "$globalVersionFile" ]; then
+    version=$(cat $globalVersionFile)
+  fi
+
+  if [ -z "$version" ]; then
+    echo "No global version found"
+    exit 1
+  fi
+
+  echo "$version"
+elif [ "$1" = "unset" ]; then
+  rm -f $globalVersionFile
+else
+  echo $1 > $globalVersionFile
+fi

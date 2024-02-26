@@ -1,0 +1,21 @@
+#!/bin/sh
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+. "$DIR/../utilities/helpers.sh"
+
+if [ "$#" -eq 0 ]; then
+  localFile=$(_up_search $FILE_NAME)
+
+  if [ -f "$localFile" ]; then
+    version=$(cat $localFile)
+  fi
+
+  if [ -z "$version" ]; then
+    echo "No local version found"
+    exit 1
+  fi
+
+  echo "$version"
+else
+  echo $1 > $FILE_NAME
+fi
