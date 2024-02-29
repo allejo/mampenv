@@ -1,13 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# shellcheck source=./../utilities/helpers.sh
 . "$DIR/../utilities/helpers.sh"
 
 if [ "$#" -eq 0 ]; then
   localFile=$(_up_search $FILE_NAME)
 
   if [ -f "$localFile" ]; then
-    version=$(cat $localFile)
+    version=$(cat "$localFile")
   fi
 
   if [ -z "$version" ]; then
@@ -17,5 +19,5 @@ if [ "$#" -eq 0 ]; then
 
   echo "$version"
 else
-  echo $1 > $FILE_NAME
+  echo "$1" > $FILE_NAME
 fi

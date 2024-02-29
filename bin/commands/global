@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -6,7 +6,7 @@ globalVersionFile="$DIR/../../version"
 
 if [ "$#" -eq 0 ]; then
   if [ -f "$globalVersionFile" ]; then
-    version=$(cat $globalVersionFile)
+    version=$(cat "$globalVersionFile")
   fi
 
   if [ -z "$version" ]; then
@@ -16,7 +16,7 @@ if [ "$#" -eq 0 ]; then
 
   echo "$version"
 elif [ "$1" = "unset" ]; then
-  rm -f $globalVersionFile
+  rm -f "$globalVersionFile"
 else
-  echo $1 > $globalVersionFile
+  echo "$1" > "$globalVersionFile"
 fi

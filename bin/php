@@ -1,6 +1,8 @@
 #!/bin/bash
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# shellcheck source=./phpversion.sh
 . "$DIR/phpversion.sh"
 
 $php -c "${conf}" "$@"

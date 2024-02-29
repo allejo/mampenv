@@ -1,15 +1,18 @@
+#!/bin/bash
+
 FILE_NAME=".php-version"
 GH_REPO="http://github.com/allejo/mampenv"
 
 _DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 _up_search() {
-  slashes=${PWD//[^\/]/}
-  directory="$PWD"
+  local n
+  local slashes=${PWD//[^\/]/}
+  local directory="$PWD"
 
   for (( n=${#slashes}; n > 0; --n )); do
     test -e "${directory}"/"$1" && echo "$directory"/"$1" && return
-    directory="$directory"/..
+    local directory="$directory"/..
   done
 }
 
@@ -24,10 +27,12 @@ _find_closest_version() {
   shift
   local versions=("$@")
   local highest_version=""
+  local input_version_components
 
   input_version_components=$(_split_string "$input_version" ".")
 
   for version in "${versions[@]}"; do
+    local version_components
     version_components=$(_split_string "$version" ".")
 
     # Check if the input version has minor and patch versions
@@ -38,9 +43,11 @@ _find_closest_version() {
       fi
     else
       # Compare each component
-      if (( ${version_components[0]} > ${input_version_components[0]} ||
-          (${version_components[0]} == ${input_version_components[0]} && ${version_components[1]} > ${input_version_components[1]}) ||
-          (${version_components[0]} == ${input_version_components[0]} && ${version_components[1]} == ${input_version_components[1]} && ${version_components[2]} > ${input_version_components[2]}))); then
+      if ((
+        version_components[0] > input_version_components[0] ||
+        (version_components[0] == input_version_components[0] && version_components[1] > input_version_components[1]) ||
+        (version_components[0] == input_version_components[0] && version_components[1] == input_version_components[1] && version_components[2] > input_version_components[2])
+      )); then
         highest_version="$version"
       fi
     fi
@@ -50,30 +57,38 @@ _find_closest_version() {
 }
 
 get_php_versions() {
-  versions=()
+  local file
+  local versions=()
 
   for file in /Applications/MAMP/bin/php/php*; do
     if [ -d "$file" ]; then
+      local name
+
       name=$(basename "$file")
       versions+=("${name/php/}")
     fi
   done
 
-  echo ${versions[@]}
+  echo "${versions[@]}"
 }
 
 get_configured_php_version() {
+  local value
+  local globalVersion
+
   value=$(_up_search $FILE_NAME)
 
   if [[ -z "$value" ]]; then
     globalVersion="$_DIR/../../version"
 
     if [[ -f "$globalVersion" ]]; then
-      echo $(cat "$globalVersion")
+      cat "$globalVersion"
+      return
     fi
 
+    echo "system"
     return
   fi
 
-  echo $(cat "$value")
+  cat "$value"
 }
