@@ -1,14 +1,17 @@
 #!/bin/bash
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# shellcheck source=./utilities/helpers.sh
 . "$DIR/utilities/helpers.sh"
+# shellcheck source=./phpversion.sh
 . "$DIR/phpversion.sh"
 
-composerVersions=($(_split_string "$(which -a composer | tr '\n' ' ')" " "))
+composerPath=$(which -a composer | awk 'NR==2')
 
-if [ ${#composerVersions[@]} -lt 2 ]; then
+if [ -z "$composerPath" ]; then
     echo "No Composer not found on your system"
     exit 1
 fi
 
-$php "${composerVersions[1]}" "$@"
+$php "$composerPath" "$@"

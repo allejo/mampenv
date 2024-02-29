@@ -1,7 +1,14 @@
 #!/bin/bash
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# shellcheck source=./phpversion.sh
 . "$DIR/phpversion.sh"
 
-bin="/Applications/MAMP/bin/php/php$version/bin/pecl"
+if [[ -z "$version" || "$version" = "system" ]]; then
+  bin=$(which -a pecl | awk 'NR==2')
+else
+  bin="/Applications/MAMP/bin/php/php$version/bin/pecl"
+fi
+
 $bin "$@"
