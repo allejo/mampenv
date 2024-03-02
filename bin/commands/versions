@@ -13,9 +13,16 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 . "$DIR/../utilities/helpers.sh"
 
 configured=$(get_configured_php_version)
+system=$(which -a php | awk 'NR==2')
 
-if [ -z "$configured" ]; then
-  echo "* system"
+if [ -z "$system" ]; then
+  prefix="  "
+
+  if [ "$configured" = "system" ]; then
+    prefix="* "
+  fi
+
+  echo "${prefix}system"
 fi
 
 for version in $(get_php_versions); do
