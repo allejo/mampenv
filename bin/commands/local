@@ -17,9 +17,9 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=./../utilities/helpers.sh
 . "$DIR/../utilities/helpers.sh"
 
-if [ "$#" -eq 0 ]; then
-  localFile=$(_up_search $FILE_NAME)
+localFile=$(_up_search $FILE_NAME)
 
+if [ "$#" -eq 0 ]; then
   if [ -f "$localFile" ]; then
     version=$(cat "$localFile")
   fi
@@ -30,6 +30,8 @@ if [ "$#" -eq 0 ]; then
   fi
 
   echo "$version"
+elif [ "$1" = "unset" ]; then
+  rm -f "$localFile"
 else
   echo "$1" > $FILE_NAME
 fi
