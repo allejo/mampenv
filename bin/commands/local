@@ -1,5 +1,17 @@
 #!/bin/bash
 
+##
+# Get or set the local version used in the current directory via a .php-version file
+#
+# Usage:
+#   local [<version> | system | unset]
+#
+# Arguments:
+#   - <version>   The specific version to set
+#   - system      Use the system version
+#   - unset       Removes the closest .php-version file
+##
+
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # shellcheck source=./../utilities/helpers.sh

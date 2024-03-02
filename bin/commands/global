@@ -1,5 +1,17 @@
 #!/bin/bash
 
+##
+# Get or set the global version, which is used in all shells without a local .php-version file
+#
+# Usage:
+#   global [<version> | system | unset]
+#
+# Arguments:
+#   - <version>   The specific version to set
+#   - system      Use the system version
+#   - unset       Removes the global version
+##
+
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 globalVersionFile="$DIR/../../version"

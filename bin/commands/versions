@@ -1,5 +1,12 @@
 #!/bin/bash
 
+##
+# List the available versions of PHP
+#
+# Usage:
+#   versions
+##
+
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # shellcheck source=./../utilities/helpers.sh

@@ -1,0 +1,51 @@
+#!/bin/bash
+
+##
+# List out all the functions available in this program
+#
+# Usage:
+#   help [<function>]
+#
+# Arguments:
+#   - <function>   The name of the function to get help for
+##
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+extract_help_message() {
+  awk '
+    /^##/ { if (flag) { flag = 0 } else { flag = 1; next } }
+    flag { sub(/^#/, ""); print }
+  ' "$1"
+}
+
+extract_summary() {
+  extract_help_message "$1" | awk '
+    /:$/ { exit }
+    { sub(/^[ \t]+/, ""); sub(/[ \t]+$/, ""); print }
+  '
+}
+
+# if no function is specified, list all functions
+if [ -z "$1" ]; then
+  echo "Usage: mampenv <function> [<args>]"
+  echo ""
+  echo "Commands:"
+
+  for file in "$DIR"/*; do
+    summary=$(extract_summary "$file")
+    filename=$(basename "$file")
+
+    printf "  %-10s %s\n" "$filename" "$summary"
+  done
+else
+  command="$DIR/$1"
+
+  if [ -f "$command" ]; then
+    extract_help_message "$command"
+    exit 0
+  fi
+
+  echo "No such function: $1"
+  exit 1
+fi
