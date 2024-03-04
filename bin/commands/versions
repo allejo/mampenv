@@ -15,7 +15,7 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 configured=$(get_configured_php_version)
 system=$(which -a php | awk 'NR==2')
 
-if [ -z "$system" ]; then
+if [ -n "$system" ]; then
   prefix="  "
 
   if [ "$configured" = "system" ]; then
