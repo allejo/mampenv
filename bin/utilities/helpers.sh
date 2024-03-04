@@ -72,23 +72,31 @@ get_php_versions() {
   echo "${versions[@]}"
 }
 
-get_configured_php_version() {
-  local value
-  local globalVersion
+get_version_file() {
+  local localVersionSpec
+  local globalVersionSpec
 
-  value=$(_up_search $FILE_NAME)
+  localVersionSpec=$(_up_search $FILE_NAME)
 
-  if [[ -z "$value" ]]; then
-    globalVersion="$_DIR/../../version"
+  if [[ -z "$localVersionSpec" ]]; then
+     globalVersionSpec=$(realpath "$_DIR/../../version")
 
-    if [[ -f "$globalVersion" ]]; then
-      cat "$globalVersion"
-      return
+    if [[ -f "$globalVersionSpec" ]]; then
+      echo "$globalVersionSpec"
     fi
-
-    echo "system"
-    return
+  else
+    echo "$localVersionSpec"
   fi
+}
 
-  cat "$value"
+get_configured_php_version() {
+  local versionSpec
+
+  versionSpec=$([ -n "$1" ] && echo "$1" || get_version_file)
+
+  if [ -n "$versionSpec" ]; then
+    cat "$versionSpec"
+  else
+    echo "system"
+  fi
 }

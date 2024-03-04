@@ -1,0 +1,20 @@
+#!/bin/bash
+
+##
+# Show information related to the configured version of PHP.
+#
+# Usage:
+#    which
+##
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+. "$DIR/../phpversion.sh"
+
+$php --version
+
+echo ""
+echo "Loaded spec file: ${versionFile/$HOME/~}"
+echo "Version: $version"
+echo "PHP CLI: $php"
+echo "Config: $conf"
