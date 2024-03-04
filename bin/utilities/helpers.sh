@@ -1,7 +1,7 @@
 #!/bin/bash
 
 FILE_NAME=".php-version"
-GH_REPO="http://github.com/allejo/mampenv"
+GH_REPO="https://github.com/allejo/mampenv"
 
 _DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 

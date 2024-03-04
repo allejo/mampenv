@@ -12,6 +12,9 @@
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# shellcheck source=./../utilities/helpers.sh
+. "$DIR/../utilities/helpers.sh"
+
 extract_help_message() {
   awk '
     /^##/ { if (flag) { flag = 0 } else { flag = 1; next } }
@@ -28,6 +31,25 @@ extract_summary() {
 
 # if no function is specified, list all functions
 if [ -z "$1" ]; then
+  versionString=""
+
+  currentCommit=$(git rev-parse --short HEAD)
+  currentTag=$(git tag --points-at "$currentCommit")
+
+  if [ -n "$currentTag" ]; then
+    closestRelease=$(git describe --tags --abbrev=0)
+    versionString="$closestRelease ($currentCommit)"
+  else
+    versionString="$currentTag-dev ($currentCommit)"
+  fi
+
+  if [[ -n $(git status --porcelain) ]]; then
+    versionString="$versionString [dirty]"
+  fi
+
+  echo "mamp - $GH_REPO"
+  echo "$versionString"
+  echo ""
   echo "Usage: mampenv <function> [<args>]"
   echo ""
   echo "Commands:"
