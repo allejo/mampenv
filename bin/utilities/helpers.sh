@@ -79,7 +79,7 @@ get_version_file() {
   localVersionSpec=$(_up_search $FILE_NAME)
 
   if [[ -z "$localVersionSpec" ]]; then
-     globalVersionSpec=$(realpath "$_DIR/../../version")
+     globalVersionSpec=$(realpath -q "$_DIR/../../version")
 
     if [[ -f "$globalVersionSpec" ]]; then
       echo "$globalVersionSpec"
@@ -92,7 +92,11 @@ get_version_file() {
 get_configured_php_version() {
   local versionSpec
 
-  versionSpec=$([ -n "$1" ] && echo "$1" || get_version_file)
+  if [ -n "$1" ]; then
+    versionSpec=$1
+  else
+    versionSpec=$(get_version_file)
+  fi
 
   if [ -n "$versionSpec" ]; then
     cat "$versionSpec"

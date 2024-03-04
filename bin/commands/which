@@ -9,12 +9,19 @@
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# shellcheck source=./../phpversion.sh
 . "$DIR/../phpversion.sh"
 
 $php --version
 
+loadedSpecFile="${versionFile/$HOME/~}"
+
+if [ -z "$loadedSpecFile" ]; then
+    loadedSpecFile="None"
+fi
+
 echo ""
-echo "Loaded spec file: ${versionFile/$HOME/~}"
+echo "Loaded spec file: $loadedSpecFile"
 echo "Version: $version"
 echo "PHP CLI: $php"
 echo "Config: $conf"
